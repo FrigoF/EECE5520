@@ -1,6 +1,6 @@
 % fourier_image.m - display magnitude of Fourier Transformed image
 % Fred J. Frigo, Ph.D.
-% 29-Jan-2035
+% 29-Jan-2025
 %
  
 % Read color photo
