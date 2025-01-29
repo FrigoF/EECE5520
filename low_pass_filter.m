@@ -50,6 +50,6 @@ lpf_gray = (mag_image/im_max);
 figure();
 imshow(lpf_gray);
 filter_image_title = sprintf("Low Pass Filtered Image: %d x %d", rows, cols);
-title(filter_image_title);
+title(filter_image_title); drawnow;
 
 
