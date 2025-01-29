@@ -4,28 +4,26 @@
 // Marquette University
 // 29-Jan-2025 
 //
-// See : http://micro.stanford.edu/wiki/Install_FFTW3
-// https://stackoverflow.com/questions/78967540/cuda-image-upsampling-with-fft-method
+// See https://stackoverflow.com/questions/78967540/cuda-image-upsampling-with-fft-method
 //
-// To compile: nvcc -o cuda_fft cuda_2d_fft.cu -lcufft 
+// To compile: nvcc -o cuda_2d_fft cuda_2d_fft.cu -lcufft 
 
 #include <stdio.h>
 #include <sys/time.h>   
 #include <cufft.h>
 #include <math.h>
 
-
 typedef struct {
         float real;
         float imag;
 } fcomplex;
 
-      
 int main(int argc, char **argv){
 
    int w = 1024, h = 1024;  // 2D FFT size is: (w x h )
    struct timeval t1, t2;
    double elapsedTime;
+   fcomplex *data;
 
    //  initialize input data 
    data = (fcomplex *) malloc(sizeof(fcomplex) * w * h);
@@ -39,7 +37,7 @@ int main(int argc, char **argv){
      }
    }
    // Show power of input signal to prove Parsevals Theorem
-   printf("power of input data is %f\n", pdata);
+   printf("power of  input data is %f\n", pdata);
 
    // Input data buffer for device
    cufftComplex *d_i;
@@ -74,7 +72,7 @@ int main(int argc, char **argv){
        ptransform+=data[i*w + j].real*data[i*w + j].real+data[i*w + j].imag*data[i*w + j].imag;
      }
    }
-   printf("power of transform data is %f\n", ptransform);
+   printf("power of output data is %f\n", ptransform);
   
    free(data); 
    cudaFree(d_i);
