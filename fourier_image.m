@@ -39,5 +39,5 @@ figure();
 L=log(A);
 imagesc(L);
 axis image;
-title("Log Magnitude of FFT image");
+title("Log Magnitude of FFT image"); drawnow;
 
