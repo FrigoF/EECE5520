@@ -1,6 +1,6 @@
 % fourier_image.m - display magnitude of Fourier Transformed image
 % Fred J. Frigo, Ph.D.
-% 29-Jan-2025
+% 29-Jan-2035
 %
  
 % Read color photo
@@ -16,14 +16,14 @@ end
 im = imread(imfile);  
 figure();
 imshow(im);
-title("Color image");
+title("Color image");  drawnow;
  
 % Convert to gray scale
 gray = rgb2gray(im);
 
 figure();
 imshow(gray);
-title("Gray scale image");
+title("Gray scale image");  drawnow;
 
 % Take the magnitude of the FFT
 F=fft2(double(gray));
@@ -32,7 +32,7 @@ A=abs(S);
 figure();
 imagesc(A);
 axis image;
-title("Magnitude of FFT image");
+title("Magnitude of FFT image"); drawnow;
 
 % Display in log format
 figure();

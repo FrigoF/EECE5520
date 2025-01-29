@@ -15,7 +15,7 @@ end
 im = imread(imfile);  
 figure();
 imshow(im);
-title("Color image");
+title("Color image");  drawnow;
  
 % Convert to gray scale
 gray = rgb2gray(im);
@@ -24,7 +24,7 @@ fprintf('Image resolution: %d x %d pixels\n', rows, cols);
 
 figure();
 imshow(gray);
-title("Gray scale image");
+title("Gray scale image"); drawnow;
 
 % Take the 2D Fourier Transform
 F=fft2(double(gray));
@@ -37,6 +37,7 @@ myfilter_max = max(max(myfilter));  % normalize
 myfilter = myfilter/myfilter_max;
 figure;
 mesh(myfilter);  
+title("Gaussian Filter Kernel"); drawnow;
 
 % Apply the filter to the complex Fourier space image
 LPF=myfilter.*S;
