@@ -145,8 +145,10 @@
    struct timeval t1, t2;
    double elapsedTime;
    fcomplex *data;
+   fcomplex *output;
 
-   data = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
+   data   = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
+   output = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
  
    /* initialize data to some function my_function(x,y) */
    int i, j;
@@ -163,15 +165,27 @@
    /* start timer */
    gettimeofday(&t1, NULL);
 
-   /* compute transforms, in-place, as many times as desired */
+   /* compute row transforms in-place */
    for (i=0; i < N0; ++i){
      cfft( &data[i*N1], N1, 1 );
+   }
+
+   /* Matrix Transpose */
+   for (i = 0; i < N0; ++i){
+      for (j = 0; j < N1; ++j){
+       output[j*N1 + i]=data[i*N1 +j];
+      }
+   }
+
+   /* compute column transforms in-place */
+   for (i=0; i < N1; ++i){
+     cfft( &data[i*N0], N0, 1 );
    }
 
    /* stop timer */
    gettimeofday(&t2, NULL);
  
-   double normalization=sqrt((double)N1);
+   double normalization=sqrt((double)N1*(double)N2);
    double ptransform = 0;
  
    /*normalize data and calculate power of transform */
