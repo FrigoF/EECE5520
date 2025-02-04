@@ -1,6 +1,5 @@
 % mr_dicom.m - Display MR DICOM image & read default WW/WL
 % Marquette University
-% COEN 4830
 %
 % Fred J. Frigo
 
