@@ -8,7 +8,7 @@ function ffilter = fermi(xdim, ydim, cutoff, trans_width)
 %    TRANS_WIDTH defines the width of the transition. 
 %
 %    Author: Wally Block, UW-Madison  02/23/01. 
-%            Fred Frigo, @MarquetteU  10/18/20 - support for non circular 
+%            Fred Frigo, MarquetteU  10/18/20 - support for non circular function
 %
 %    Call: ffilter = fermi(xdim, cutoff, trans_width);
 
