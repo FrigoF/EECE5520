@@ -41,19 +41,18 @@ figure; imshow(large_region); title('No Large Circles'); drawnow;
 % Manually pick a seed point inside region based on image size
 seed1 = round(rows/3); seed2 = round(cols/3);
 small_region = grayconnected(large_region, seed1, seed2);
-gradient = imsubtract( imdilate(small_region, ones(4)), ...
-                        imerode(small_region, ones(4)) );drawnow;    
+gradient = bwperim(small_region);
+gradient = imdilate( gradient, ones(5)); % increase line width of bwperim()   
 figure; imshow(gradient); title('Gradient'); drawnow;
+
+% Remove edge boundary on left hand side if present
+gradient(:,1:80)=0;
+% Remove edge boundaries at top & bottom of image
+gradient(1:30,1:round(rows/3))=0;
+gradient(cols-30:cols,1:round(rows/3))=0;
 
 % Overlay boundary onto original image
 final_image = input_image;
 index = find(gradient > 0);
 final_image(index) = 255; drawnow;
 figure; imshow(final_image); title("Final Image"); drawnow;
-
-
-
-
-
-
-
