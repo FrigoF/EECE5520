@@ -9,7 +9,7 @@
 A = imread("kobi.png");
 A = imresize(A,0.25);
 Agray = im2gray(A);
-figure; imshow(A); drawnow;
+figure; imshow(A); title('Original Image'); drawnow;
 
 imageSize = size(A);
 numRows = imageSize(1);
@@ -50,12 +50,12 @@ X = bsxfun(@rdivide,X,std(X));
 
 coeff = pca(X);
 feature2DImage = reshape(X*coeff(:,1),numRows,numCols);
-figure; imshow(feature2DImage,[]); drawnow;
+figure; imshow(feature2DImage,[]); title('Gabor Features'); drawnow;
 
 L = kmeans(X,2,"Replicates",5);
 % Visualize segmentation using label2rgb
 L = reshape(L,[numRows numCols]);
-figure; imshow(label2rgb(L)); drawnow;
+figure; imshow(label2rgb(L)); title('Foreground and Background mask');drawnow;
 
 Aseg1 = zeros(size(A),"like",A);
 Aseg2 = zeros(size(A),"like",A);
@@ -63,4 +63,4 @@ BW = L == 2;
 BW = repmat(BW,[1 1 3]);
 Aseg1(BW) = A(BW);
 Aseg2(~BW) = A(~BW);
-figure; montage({Aseg1,Aseg2}); drawnow;
+figure; montage({Aseg1,Aseg2}); title('Final Images'); drawnow;
