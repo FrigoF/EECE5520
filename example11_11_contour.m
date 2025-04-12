@@ -1,4 +1,4 @@
-% example11_11.m -  Region Growing 
+% example11_11_contour.m -  Region Growing using activecontour
 % Marquette University
 % Fred J. Frigo, Ph.D.
 % 
@@ -28,11 +28,19 @@ f2 = uint8(round((f1*im_scale)));
 lpf_gray = imgaussfilt(f2,8); % 8 is determined empirically
 figure; imshow(lpf_gray); title('Gaussian filtered image');drawnow;
 
-% The point 300, 300 is located interior to the implant
-threshold = 60; % 60 is determined empirically
-xcoord = 300; ycoord = 300;
-bw_implant = grayconnected(lpf_gray, xcoord, ycoord, threshold); 
-figure; imshow(bw_implant); title('Implant Mask'); drawnow;
+% Use activecontour() to find region
+mask = zeros( rows, cols);
+mask(150:end-150,150:end-150) = 1;
+figure; imshow(mask); title('Initial Contour Mask');
+iterations = 2000;
+bw_contour = activecontour( lpf_gray, mask, iterations);
+figure; imshow(bw_contour); title('Contour Regions'); drawnow;
+
+% Draw Boundary line for implant region
+implant_marker = imbinarize(zeros(size(bw_contour))); 
+implant_marker(300,300) = 1;  % point 300,300 is inside the implant region
+bw_implant = imreconstruct(implant_marker, bw_contour);
+figure; imshow(bw_implant); title('Implant Region'); drawnow;
 
 % Draw Boundary line for implant region
 gradient = bwperim(bw_implant);
