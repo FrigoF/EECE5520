@@ -145,10 +145,10 @@
    struct timeval t1, t2;
    double elapsedTime;
    fcomplex *data;
-   fcomplex *output;
+   fcomplex *data2d;
 
    data   = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
-   output = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
+   data2d = (fcomplex *) malloc(sizeof(fcomplex) * N0 * N1);
  
    /* initialize data to some function my_function(x,y) */
    int i, j;
@@ -173,13 +173,13 @@
    /* Matrix Transpose */
    for (i = 0; i < N0; ++i){
       for (j = 0; j < N1; ++j){
-       output[j*N1 + i]=data[i*N1 +j];
+       data2d[j*N1 + i]=data[i*N1 +j];
       }
    }
 
    /* compute column transforms in-place */
    for (i=0; i < N1; ++i){
-     cfft( &data[i*N0], N0, 1 );
+     cfft( &data2d[i*N0], N0, 1 );
    }
 
    /* stop timer */
@@ -191,15 +191,16 @@
    /*normalize data and calculate power of transform */
    for (i = 0; i < N0; ++i){
      for (j = 0; j < N1; ++j){
-       data[i*N1+j].real/=normalization;
-       data[i*N1+j].imag/=normalization;
-       ptransform+=data[i*N1 + j].real*data[i*N1 + j].real+data[i*N1 + j].imag*data[i*N1 + j].imag;
+       data2d[i*N1+j].real/=normalization;
+       data2d[i*N1+j].imag/=normalization;
+       ptransform+=data2d[i*N1 + j].real*data2d[i*N1 + j].real+data2d[i*N1 + j].imag*data2d[i*N1 + j].imag;
      }
    }
  
    printf("power of transform data is %f\n", ptransform);
   
    free(data); 
+   free(data2d);
 
    /* print the FFT time in millisec */
    elapsedTime = (t2.tv_sec - t1.tv_sec) * 1000.0;      // sec to ms
